@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	dftConf = ".air.conf"
+	dftConf = "air.conf"
 	airWd   = "air_wd"
 )
 
@@ -60,6 +60,8 @@ func initConfig(path string) (cfg *config, err error) {
 	if path == "" {
 		// when path is blank, first find `.air.conf` in `air_wd` and current working directory, if not found, use defaults
 		if wd := os.Getenv(airWd); wd != "" {
+			path = filepath.Join(wd, dftConf)
+		} else if wd := os.Getenv("GOPATH"); wd != "" {
 			path = filepath.Join(wd, dftConf)
 		} else {
 			path, err = dftConfPath()
